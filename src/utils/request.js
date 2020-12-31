@@ -31,9 +31,9 @@ service.interceptors.request.use(
 // 3.响应拦截器
 service.interceptors.response.use(
   (response) => {
-    console.log('resp======')
+    console.log('响应拦截器resp======')
     console.log(response)
-    console.log('response.data======')
+    console.log('响应拦截器response.data======')
     console.log(response.data)
     // TODO  接收到响应数据并成功后的一些共有的处理，关闭loading等
     return response.data

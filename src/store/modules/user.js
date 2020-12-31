@@ -53,7 +53,7 @@ const actions = {
           console.log(response)
           const data = response.result
           console.log(data)
-          alert('x')
+          alert('getUserInfo')
           if (!data) {
             return reject('Verification failed, please Login again.')
           }

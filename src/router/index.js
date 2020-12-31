@@ -69,7 +69,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'user',
-        component: () => import('@/views/system/user/UserList'), // Parent router-view
+        component: () => import('@/views/system/user/UserList'),
         name: '用户管理',
         meta: { title: '用户管理', icon: 'el-icon-user' }
       },
@@ -78,6 +78,12 @@ export const constantRoutes = [
         component: () => import('@/views/system/role/RoleList'),
         name: '角色管理',
         meta: { title: '角色管理' }
+      },
+      {
+        path: 'menu',
+        component: () => import('@/views/system/menu/MenuList'),
+        name: '菜单管理',
+        meta: { title: '菜单管理' }
       }
     ]
   },

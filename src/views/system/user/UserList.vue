@@ -1,8 +1,26 @@
 <!--  -->
 <template>
   <div class="">
+    <el-form :model="queryParams" inline>
+      <el-form-item label="用户名" style="width:40%">
+        <el-input v-model="queryParams.username" placeholder="用户名" />
+      </el-form-item>
+      <el-form-item label="状态">
+        <el-select v-model="queryParams.status">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" icon="el-icon-search" size="medium" @click="getList">搜索</el-button>
+      </el-form-item>
+    </el-form>
+
     <el-table :data="list">
-      <el-table-column label="" />
+      <el-table-column type="selection" header-align="center" align="center" width="50" />
+      <el-table-column label="名字" prop="realname" header-align="center" align="center" width="80" />
+      <el-table-column label="用户名" prop="username" header-align="center" align="center" />
+      <el-table-column label="性別" prop="sex" />
+      <el-table-column label="状态" prop="status" />
     </el-table>
   </div>
 </template>
@@ -16,10 +34,21 @@ export default {
   components: {},
   data() {
     return {
-      list: null,
+      queryParams: {
+        username: null,
+        status: null
+      },
+      options: [{
+        value: '0',
+        label: '禁用'
+      }, {
+        value: '1',
+        label: '正常'
+      }],
+      list: [],
       url: {
-        list: '/user/list',
-        add: '/user/add'
+        list: '/sys/user/getUserList',
+        add: '/sys/user/add'
       }
     }
   },
@@ -32,21 +61,25 @@ export default {
     this.getList()
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {},
-  beforeCreate() {}, // 生命周期 - 创建之前
-  beforeMount() {}, // 生命周期 - 挂载之前
-  beforeUpdate() {}, // 生命周期 - 更新之前
-  updated() {}, // 生命周期 - 更新之后
-  beforeDestroy() {}, // 生命周期 - 销毁之前
-  destroyed() {}, // 生命周期 - 销毁完成
-  activated() {},
+  mounted() { },
+  beforeCreate() { }, // 生命周期 - 创建之前
+  beforeMount() { }, // 生命周期 - 挂载之前
+  beforeUpdate() { }, // 生命周期 - 更新之前
+  updated() { }, // 生命周期 - 更新之后
+  beforeDestroy() { }, // 生命周期 - 销毁之前
+  destroyed() { }, // 生命周期 - 销毁完成
+  activated() { },
   methods: {
     getList() {
-      alert('x')
-      const param = { username: 'a' }
-      console.log(param)
-      this.list = this.$http.get(this.url.list, param)
-      console.log(this.list)
+      const param = this.queryParams
+      this.$http.get(this.url.list, param).then((data) => {
+        console.log('data===')
+        console.log(data.result.records)
+        this.list = data.result.records
+      }).catch((err) => {
+        console.log(err)
+        this.$message('error')
+      })
     }
   } // 如果页面有keep-alive缓存功能，这个函数会触发
 }
